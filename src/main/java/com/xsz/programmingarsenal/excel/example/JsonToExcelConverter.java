@@ -21,20 +21,20 @@ public class JsonToExcelConverter {
 
     public static void convertJsonToExcel(String jsonFilePath, String excelFilePath) {
         try {
-            // 读取JSON文件
+            // Read the JSON file
             String jsonContent = new String(Files.readAllBytes(Paths.get(jsonFilePath)));
             JSONArray jsonArray = JSON.parseArray(jsonContent);
 
-            // 创建Excel工作簿和工作表
+            // Create an Excel workbook and a sheet
             Workbook workbook = new XSSFWorkbook();
             Sheet sheet = workbook.createSheet("Users");
 
-            // 创建表头
+            // Create the header row
             Row headerRow = sheet.createRow(0);
             headerRow.createCell(0).setCellValue("Name");
             headerRow.createCell(1).setCellValue("Age");
 
-            // 填充数据
+            // Populate the data
             int rowNum = 1;
             for (Object obj : jsonArray) {
                 JSONObject jsonObject = (JSONObject) obj;
@@ -45,7 +45,7 @@ public class JsonToExcelConverter {
                 row.createCell(1).setCellValue(String.valueOf(user.getAge()));
             }
 
-            // 写入Excel文件
+            // Write to the Excel file
             try (FileOutputStream outputStream = new FileOutputStream(excelFilePath)) {
                 workbook.write(outputStream);
             }
